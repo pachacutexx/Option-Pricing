@@ -24,7 +24,7 @@ from EuropeanOption import EuropeanOption
 
 Initialize a European call option
 
-call_option = EuropeanOption(S0=100, K=100, T=1, r=0.05, sigma=0.2, is_call=True)
+call_option = EuropeanOption(S0=100, K=100, T=1, r=0.05, sigma=0.2, is_call=True, steps=252)
 
 Calculate the price using a binomial tree
 
