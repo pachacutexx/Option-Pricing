@@ -11,19 +11,23 @@ Suitable for both educational purposes and practical applications, it aims to ex
 ## Installation
 
 git clone https://github.com/yourusername/Option-Pricing.git
+
 cd Option-Pricing
 
 ## Usage
 
 Below are some examples of how to use the 'EuoropeanOption' class to price European options using different methods.
 
-#Pricing a European call option using a binomial tree
+Pricing a European call option using a binomial tree
+
 from EuropeanOption import EuropeanOption
 
-#Initialize a European call option
+Initialize a European call option
+
 call_option = EuropeanOption(S0=100, K=100, T=1, r=0.05, sigma=0.2, is_call=True)
 
-#Calculate the price using a binomial tree
+Calculate the price using a binomial tree
+
 binomial_call_price = call_option.price(method='binomial')
 print(f"Call option price using Binomial Tree: {binomial_call_price:.2f}")
 
