@@ -65,6 +65,17 @@ class EuropeanOption:
 
         return option_values[0]
 
+    def black_scholes_price(self):
+        d1 = (np.log(self.S0 / self.K) + (self.r + 0.5 * self.sigma**2) * self.T) / (self.sigma * np.sqrt(self.T))
+        d2 = d1 - self.sigma * np.sqrt(self.T)
+
+        if self.is_call:
+            price = (self.S0 * norm.cdf(d1) - self.K * np.exp(-self.r * self.T) * norm.cdf(d2))
+        else:
+            price = (self.K * np.exp(-self.r * self.T) * norm.cdf(-d2) - self.S0 * norm.cdf(-d1))
+
+        return price
+
     def price(self, method='binomial'):
         if method == 'binomial':
             return self.binomial_price()
