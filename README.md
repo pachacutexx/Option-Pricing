@@ -10,7 +10,7 @@ Suitable for both educational purposes and practical applications, it aims to ex
 
 ## Installation
 
-git clone https://github.com/yourusername/Option-Pricing.git
+git clone https://github.com/pachacutexx/Option-Pricing.git
 
 cd Option-Pricing
 
