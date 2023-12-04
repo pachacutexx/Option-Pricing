@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.stats import norm
 
 class EuropeanOption:
     def __init__(self, S0, K, T, r, sigma, is_call=True, steps=100):
