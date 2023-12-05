@@ -88,20 +88,20 @@ class EuropeanOption:
         return nxt_vec_prices[0]
 
     def black_scholes_price(self):
-    # Calculate d1 using the Black-Scholes formula components.
-    d1 = (np.log(self.S0 / self.K) + (self.r + 0.5 * self.sigma**2) * self.T) / (self.sigma * np.sqrt(self.T))
-
-    # Calculate d2, which is derived from d1 but adjusted by the volatility over time.
-    d2 = d1 - self.sigma * np.sqrt(self.T)
-
-    # Calculate the option price based on whether it is a call or a put option.
-    if self.is_call:
-        price = (self.S0 * norm.cdf(d1) - self.K * np.exp(-self.r * self.T) * norm.cdf(d2))
-    else:
-        price = (self.K * np.exp(-self.r * self.T) * norm.cdf(-d2) - self.S0 * norm.cdf(-d1))
-
-    # Return the calculated price.
-    return price
+        # Calculate d1 using the Black-Scholes formula components.
+        d1 = (np.log(self.S0 / self.K) + (self.r + 0.5 * self.sigma**2) * self.T) / (self.sigma * np.sqrt(self.T))
+    
+        # Calculate d2, which is derived from d1 but adjusted by the volatility over time.
+        d2 = d1 - self.sigma * np.sqrt(self.T)
+    
+        # Calculate the option price based on whether it is a call or a put option.
+        if self.is_call:
+            price = (self.S0 * norm.cdf(d1) - self.K * np.exp(-self.r * self.T) * norm.cdf(d2))
+        else:
+            price = (self.K * np.exp(-self.r * self.T) * norm.cdf(-d2) - self.S0 * norm.cdf(-d1))
+    
+        # Return the calculated price.
+        return price
 
 
     def price(self, method='binomial'):
