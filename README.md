@@ -12,7 +12,7 @@ Suitable for both educational purposes and practical applications, it aims to ex
 
 git clone https://github.com/pachacutexx/Option-Pricing.git
 
-cd Option-Pricing
+cd Option-Pricing/src/
 
 ## Usage
 
