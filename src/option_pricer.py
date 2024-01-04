@@ -228,7 +228,8 @@ def _simulate_asset_paths(self, n_paths, n_steps, dt, antithetic=True):
 
  def _longstaff_schwartz_payoff(self, paths, dt):
         """
-        Calculate the payoff for each path using the Longstaff-Schwartz method with sklearn linear regression.
+        Calculate the payoff for each path using the Longstaff-Schwartz method with sklearn linear regression,
+        including the previous price and its square as regression factors.
         """
         n_steps, n_paths = paths.shape
         payoffs = np.zeros(n_paths)
@@ -243,7 +244,11 @@ def _simulate_asset_paths(self, n_paths, n_steps, dt, antithetic=True):
         # Start from the second-to-last time step
         for t in range(n_steps - 2, 0, -1):
             itm = values[t] > 0
-            regression_factors = np.vstack((np.ones(np.sum(itm)), paths[t, itm])).T
+            regression_factors = np.vstack([
+                np.ones(np.sum(itm)), 
+                paths[t, itm], 
+                paths[t, itm]**2
+            ]).T
             regression_targets = values[t + 1, itm] * np.exp(-self.r * dt)
             reg = LinearRegression().fit(regression_factors, regression_targets)
             continuation_values = reg.predict(regression_factors)
@@ -255,8 +260,8 @@ def _simulate_asset_paths(self, n_paths, n_steps, dt, antithetic=True):
         # Handle the last time step
         payoffs = np.where(values[1] > 0, values[1], payoffs * np.exp(-self.r * dt))
         return payoffs
-
-    def ls_price(self, n_paths=10000, confidence_level=0.95):
+     
+    def lsmc_price(self, n_paths=10000, confidence_level=0.95):
         dt = self.T / self.steps
         paths = self._simulate_asset_paths(n_paths, self.steps, dt)
         payoffs = self._longstaff_schwartz_payoff(paths, dt)
@@ -271,12 +276,12 @@ def _simulate_asset_paths(self, n_paths, n_steps, dt, antithetic=True):
 
         return price, conf_interval
 
-    def price(self, method='binomial'):
+    def price(self, method='trinomial'):
         if method == 'binomial':
             return self.binomial_price()
         elif method == 'trinomial':
             return self.trinomial_price()
-        elif method == 'ls':
-            return self.ls_price()
+        elif method == 'lsmc':
+            return self.lsmc_price()
         else:
-            raise ValueError("Invalid method. Choose 'binomial', 'trinomial', or 'ls'.")
+            raise ValueError("Invalid method. Choose 'binomial', 'trinomial', or 'lsmc'.")
